@@ -2,17 +2,19 @@ Package: mammaPrintData
 Type: Package
 Title: RGLists from the Glas and Buyse breast cancer
       studies
-Version: 1.49.0
+Version: 1.49.1
 Date: 2013-05-13
 Description: Gene expression data for the two breast cancer cohorts published by Glas and Buyse in 2006. This cohorts were used to implement and validate the mammaPrint breast cancer test.
 biocViews: ExperimentData, ExpressionData, CancerData, BreastCancerData, MicroarrayData, TwoChannelData
 Author: Luigi Marchionni <marchion@jhu.edu>
 Maintainer: Luigi Marchionni <marchion@jhu.edu>
-Depends: R (>= 2.13.0)
+Depends: R (>= 4.1)
 Suggests: Biobase, readxl, limma
-License: Artistic-2.0
+License: MIT + file LICENSE
 URL: http://luigimarchionni.org/breastTSP.html
 LazyLoad: yes
 Packaged: 2013-05-14 01:56:09 UTC; marchion
-
-    
+Config/roxygen2/markdown: TRUE
+Config/roxygen2/version: 8.0.0
+Config/testthat/edition: 3
+Encoding: UTF-8
