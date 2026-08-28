@@ -1,11 +1,19 @@
-Package: mammaPrintData
 Type: Package
-Title: RGLists from the Glas and Buyse breast cancer
-      studies
+Package: mammaPrintData
+Title: Gene Expression Data from the MammaPrint Validation Cohorts of Glas and Buyse studies
 Version: 1.49.1
-Date: 2013-05-13
-Description: Gene expression data for the two breast cancer cohorts published by Glas and Buyse in 2006. This cohorts were used to implement and validate the mammaPrint breast cancer test.
-biocViews: ExperimentData, ExpressionData, CancerData, BreastCancerData, MicroarrayData, TwoChannelData
+Description: Curated gene expression data from the two breast cancer
+    cohorts used to develop and validate the MammaPrint 70-gene prognostic
+    signature: the Glas et al. (2006) implementation study
+    <doi:10.1186/1471-2164-7-278> and the Buyse et al. (2006) TRANSBIG
+    validation study <doi:10.1093/jnci/djj329>. Each cohort was profiled
+    on a custom two-color Agilent array (A-MEXP-318) with a dye-swap
+    design, and is provided as a pair of limma RGList objects, one per
+    dye orientation, with probe annotation and patient-level clinical
+    information attached. The 70-gene signature itself is included as a
+    processed data set. The original raw files from ArrayExpress
+    (E-TABM-77 and E-TABM-115) are archived on Zenodo
+    <doi:[ZENODO_DOI]>.
 Author: Luigi Marchionni <marchion@jhu.edu>
 Maintainer: Luigi Marchionni <marchion@jhu.edu>
 Depends: R (>= 4.1)
@@ -18,3 +26,5 @@ Config/roxygen2/markdown: TRUE
 Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 Encoding: UTF-8
+biocViews: ExperimentData, ExpressionData, CancerData, BreastCancerData, MicroarrayData, TwoChannelData
+Date: 2026-08-27
