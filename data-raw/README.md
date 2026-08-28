@@ -24,7 +24,7 @@ Rscript data-raw/buyseRG.R
 
 The raw inputs come from the Zenodo record doi:[ZENODO_DOI] (through the
 package's own `fetchMammaPrintRaw()`), or from local copies of the upload artifacts kept in this
-directory (`E-TABM-*_raw.tar.gz`, `415530a-s9.xls`; the tarballs are git-ignored). The same
+directory (`E-TABM-*_raw.tar.gz`, `415530a-s9.xls`; all git-ignored). The same
 files are served individually by EBI BioStudies (`fetchMammaPrintRaw(...,
 source = "biostudies")`), which the scripts do not use because the complete
 per-array set amounts to several hundred files per accession.

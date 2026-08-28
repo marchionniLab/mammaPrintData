@@ -1,3 +1,4 @@
-# Zenodo upload artifacts (regenerated; too large or redundant to commit)
+# Zenodo upload artifacts: raw data (tarballs, spreadsheet) and processed rda copies
 *.tar.gz
+*.xls
 *.rda
