@@ -1,0 +1,314 @@
+---
+title: "The mammaPrintData package: annotated gene expression data from the Glas and Buyse breast cancer cohorts"
+author:
+  - name: Luigi Marchionni
+    affiliation: The Sidney Kimmel Comprehensive Cancer Center, Johns Hopkins University School of Medicine
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+package: mammaPrintData
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+bibliography: mammaPrintData.bib
+vignette: >
+  %\VignetteIndexEntry{Working with the mammaPrintData package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE
+)
+options(width = 90)
+```
+
+# Overview
+
+This vignette documents the `r Biocpkg("mammaPrintData")` package, which
+provides the gene expression data of the Glas and Buyse breast cancer
+cohorts [@Glas2006; @Buyse2006] as annotated `r Biocpkg("limma")` `RGList`
+objects. These data were used to translate the 70-gene prognostic signature
+of van 't Veer and Van de Vijver and colleagues [@vantVeer2002; @Vijver2002]
+into the MammaPrint assay [@Glas2006], and to validate it independently in
+the TRANSBIG multicenter cohort [@Buyse2006]. While the original studies
+used the two-color Agilent/Rosetta 24k array, the redeveloped assay is based
+on the custom 1.9k MammaPrint array (ArrayExpress array design
+`A-MEXP-318`). For a review of these breast cancer studies see Marchionni et
+al. [@Marchionni2007b; @Marchionni2008a].
+
+The package contains:
+
+- `glasRGcy5` and `glasRGcy3`: the **Glas cohort** (ArrayExpress series
+  `E-TABM-115`, 162 patients), which combined a large proportion of the
+  cases of the original van 't Veer and Van de Vijver cohorts and was used
+  to implement the signature;
+- `buyseRGcy5` and `buyseRGcy3`: the **Buyse cohort** (ArrayExpress series
+  `E-TABM-77`, 307 patients), the European multicenter validation set;
+- `seventyGeneSignature`: the 231 prognostic reporters of Table S2 of van
+  't Veer et al. [@vantVeer2002], with the 70-gene signature flagged.
+
+In both studies a two-color dye-swap design was applied, comparing each
+sample against the same reference RNA pool ("MRP"). Therefore two distinct
+`RGList` objects are provided for each cohort, one for each set of dye-swap
+hybridizations. The objects contain the **unprocessed** intensities as
+obtained from the raw ArrayExpress files: the pre-processed and normalized
+values used by the authors were not part of the ArrayExpress submissions,
+hence normalization is required prior to any analysis.
+
+## Where the raw data live
+
+Up to version 1.49.1 the original ArrayExpress files (about 210 MB) were
+bundled in the package sources. They are now archived on Zenodo
+(doi:[ZENODO_DOI]) and remain available per file from EBI BioStudies, the
+current home of ArrayExpress [@Brazma2003]. The function
+`fetchMammaPrintRaw()` retrieves them from either source (see Section
+\@ref(raw)). The complete code used to generate the processed objects from
+the raw files is kept in the `data-raw/` directory of the package sources
+(<https://github.com/marchionniLab/mammaPrintData/tree/devel/data-raw>) and
+is summarized in Section \@ref(generation).
+
+# The processed data sets
+
+Data sets are lazy-loaded: after attaching the package they can be referred
+to by name. `r Biocpkg("limma")` provides the methods (`dim()`, `print()`,
+subsetting, ...) for `RGList` objects.
+
+```{r load}
+library(mammaPrintData)
+library(limma)
+```
+
+## Glas cohort
+
+```{r glas}
+class(glasRGcy5)
+dim(glasRGcy5)
+dim(glasRGcy3)
+names(glasRGcy5)
+```
+
+The SDRF table of `E-TABM-115` available from ArrayExpress has one row per
+hybridization rather than one per channel: the rows describing the patient
+RNA (labeled with Cy5) carry the clinical information, whereas the rows
+describing the reference pool (labeled with Cy3) do not. Consequently,
+`glasRGcy5$targets` holds the patient-level information, while
+`glasRGcy3$targets` holds the reference-pool metadata; the arrays of the two
+objects are paired by position.
+
+```{r glasTargets}
+head(glasRGcy5$targets[, c("Sample.Name", "Scan.Name", "putativeCohort",
+                           "OS", "OSevent", "TTM", "TTMevent", "FiveYearMetastasis")])
+head(glasRGcy3$targets[, c("Sample.Name", "Label", "Scan.Name", "putativeCohort")])
+```
+
+## Buyse cohort
+
+```{r buyse}
+class(buyseRGcy5)
+dim(buyseRGcy5)
+dim(buyseRGcy3)
+```
+
+For `E-TABM-77` the SDRF table is complete (one row per channel), so the
+`targets` component of both objects combines the patient and the reference
+rows of each hybridization; the `Cy5` and `Cy3` columns record which sample
+was labeled with which dye. Arrays are named after the patient identifier
+in both objects.
+
+```{r buyseTargets}
+head(buyseRGcy5$targets[, c("Sample.Name", "Cy5", "Cy3", "Characteristics.BioSourceProvider",
+                            "Factor.Value.MammaPrint.prediction", "OS", "OSevent",
+                            "TTM", "TTMevent", "FiveYearRecurrence", "toExclude")])
+identical(colnames(buyseRGcy5), colnames(buyseRGcy3))
+```
+
+## Feature annotation
+
+The `genes` component is the same for all four objects: the `A-MEXP-318`
+array design annotation, plus the mapping of each feature to the 231-gene
+and 70-gene prognostic lists (`genes231`, `genes70`) and the original
+van 't Veer correlation with outcome (`gns231Cors`), where available.
+
+```{r genes}
+head(glasRGcy5$genes)
+colSums(glasRGcy5$genes[, c("genes231", "genes70")])
+identical(glasRGcy5$genes, buyseRGcy5$genes)
+```
+
+## The 70-gene signature
+
+`seventyGeneSignature` is the parsed Table S2 of van 't Veer et al.
+[@vantVeer2002], ordered by decreasing absolute correlation; according to
+the supplementary methods of that paper the optimal signature consists of
+the top 70 reporters.
+
+```{r signature}
+head(seventyGeneSignature)
+table(seventyGeneSignature$signature70)
+```
+
+# Retrieving the raw data {#raw}
+
+`fetchMammaPrintRaw()` downloads the original files once and caches them
+with `r Biocpkg("BiocFileCache")`. Zenodo is the recommended source: it
+serves one archive per ArrayExpress accession with the SDRF, the array
+design and all raw files exactly as originally retrieved.
+
+```{r fetchZenodo, eval = FALSE}
+## The Glas cohort archive (70 MB) and the Buyse cohort archive (134 MB)
+glasArchive <- fetchMammaPrintRaw("E-TABM-115")
+buyseArchive <- fetchMammaPrintRaw("E-TABM-77")
+rawDir <- tempfile("mammaPrintRaw_")
+untar(glasArchive, exdir = rawDir)
+untar(buyseArchive, exdir = rawDir)
+list.files(rawDir)
+## The van 't Veer supplementary spreadsheet
+xls <- fetchMammaPrintRaw("seventyGene")
+```
+
+BioStudies serves the files individually (uncompressed). By default only
+the SDRF and the array design are fetched; raw files can be requested by
+name, or all at once (several hundred files per accession).
+
+```{r fetchBioStudies, eval = FALSE}
+meta <- fetchMammaPrintRaw("E-TABM-115", source = "biostudies")
+sdrf <- read.delim(meta[["E-TABM-115.sdrf.txt"]], check.names = FALSE)
+head(sdrf[["Array Data File"]])
+## a couple of raw files ...
+fetchMammaPrintRaw("E-TABM-115", source = "biostudies",
+                   files = sdrf[["Array Data File"]][1:2])
+## ... or the complete set
+fetchMammaPrintRaw("E-TABM-115", source = "biostudies", files = "all")
+```
+
+# How the objects were generated {#generation}
+
+The code below is not evaluated when the vignette is built; it is a
+condensed version of the scripts in `data-raw/`, which reproduce the shipped
+objects exactly from the Zenodo archives.
+
+## The 70-gene signature
+
+```{r genSignature, eval = FALSE}
+library(readxl)
+gns231 <- read_xls(fetchMammaPrintRaw("seventyGene"))
+colnames(gns231) <- gsub("\\s#", "", colnames(gns231))
+colnames(gns231) <- gsub("\\s", ".", colnames(gns231))
+gns231 <- gns231[, -grep("sp_xref_keyword_list", colnames(gns231))]
+gns231 <- gns231[order(abs(gns231$correlation), decreasing = TRUE), ]
+gns231$signature70 <- seq_len(nrow(gns231)) <= 70
+seventyGeneSignature <- as.data.frame(gns231)
+```
+
+## Sample information and dye-swap sets
+
+The SDRF tables are reduced to their informative columns. For the Glas
+cohort the two dye-swap sets are identified from the label of the row
+describing each hybridization; for the Buyse cohort the patient and
+reference rows of each hybridization are combined.
+
+```{r genTargets, eval = FALSE}
+readSDRF <- function(file) {
+  targets <- read.table(file, comment.char = "", sep = "\t", header = TRUE,
+                        stringsAsFactors = FALSE)
+  targets <- targets[, apply(targets, 2, function(x) length(unique(x)) != 1)]
+  targets <- targets[order(targets$Array.Data.File, decreasing = TRUE), ]
+  colnames(targets) <- gsub("\\.$", "", gsub("\\.\\.", ".", colnames(targets)))
+  targets
+}
+## Glas: one row per hybridization
+targets <- readSDRF(file.path(rawDir, "ETABM115", "E-TABM-115.sdrf.txt.gz"))
+targetsCy3info <- targets[targets$Source.Name == "MRP" & targets$Label == "Cy3", ]
+targetsCy5info <- targets[targets$Source.Name != "MRP" & targets$Label == "Cy5", ]
+## Buyse: one row per channel, combined per hybridization (see data-raw/buyseRG.R)
+```
+
+## Reading the raw intensities
+
+```{r genRG, eval = FALSE}
+colsList <- list(
+  Rf = "Feature Extraction Software:rMedianSignal",
+  Rb = "Feature Extraction Software:rBGMedianSignal",
+  Gf = "Feature Extraction Software:gMedianSignal",
+  Gb = "Feature Extraction Software:gBGMedianSignal",
+  logRatio = "Feature Extraction Software:LogRatio",
+  logRatioError = "Feature Extraction Software:LogRatioError"
+)
+RGcy5 <- read.maimages(paste0(targetsCy5info$Array.Data.File, ".gz"),
+                       source = "generic", columns = colsList,
+                       annotation = "Reporter identifier",
+                       path = file.path(rawDir, "ETABM115"))
+RGcy5$targets <- targetsCy5info
+RGcy5$genes$ID <- gsub(".+A-MEXP-318\\.", "", RGcy5$genes[, "Reporter identifier"])
+```
+
+## Feature annotation
+
+The `A-MEXP-318` array design file is parsed and each feature is mapped to
+the 231-gene and 70-gene lists by accession number or gene symbol.
+
+```{r genGenes, eval = FALSE}
+genes <- read.table(file.path(rawDir, "ETABM115", "A-MEXP-318.adf.txt.gz"),
+                    skip = 21, sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+colnames(genes) <- gsub("\\.$", "", gsub("\\.\\.", ".", colnames(genes)))
+ids231 <- unique(c(seventyGeneSignature$accession, seventyGeneSignature$gene.name))
+ids70 <- with(seventyGeneSignature, unique(c(accession[signature70], gene.name[signature70])))
+genes$genes231 <- genes$Comment.AEReporterName %in% ids231
+genes$genes70 <- genes$Comment.AEReporterName %in% ids70
+## ... add the original correlations, then attach to the RGList
+## (features are reordered by reporter identifier; see data-raw/helpers.R)
+```
+
+## Clinical end points
+
+The character strings of the SDRF tables were processed into numeric
+survival times and event indicators. For the Glas cohort this was possible
+only for the set of hybridizations carrying the clinical information
+(`glasRGcy5`); the putative cohort of origin of each patient (78 van 't
+Veer and 84 Van de Vijver cases) was inferred from the suffix of the scan
+names.
+
+```{r genPheno, eval = FALSE}
+pheno <- glasRGcy5$targets
+pheno$putativeCohort <- factor(nchar(gsub(".+_", "", pheno$Scan.Name)),
+                               labels = c("putativeVantVeer", "putativeVanDeVijver"))
+pheno$OS <- as.numeric(gsub("\\s.+", "", pheno$Factor.Value.overall_survival))
+pheno$OSevent <- as.numeric(pheno$Factor.Value.Event_Death)
+pheno$TenYearSurv <- pheno$OS < 10 & pheno$OSevent == 1
+TTM <- pheno$Factor.Value.Time_to_development_of_distant_metastases
+pheno$TTM <- as.numeric(gsub("\\s.+", "", TTM))
+pheno$TTMevent <- as.numeric(pheno$Factor.Value.Event_distant_metastases)
+pheno$TTM[is.na(pheno$TTM)] <- pheno$OS[is.na(pheno$TTM)]
+pheno$FiveYearMetastasis <- pheno$TTM < 5 & pheno$TTMevent == 1
+```
+
+The resulting prognosis groups, which correspond to the "good" and "bad"
+prognosis groups used in the original studies, are summarized below.
+
+```{r phenoSummary}
+## Glas cohort: putative cohort of origin and 5-year distant metastasis
+table(glasRGcy5$targets$putativeCohort)
+table(glasRGcy5$targets$OSevent, useNA = "ifany")
+table(FiveYearMetastasis = glasRGcy5$targets$FiveYearMetastasis,
+      glasRGcy5$targets$putativeCohort, useNA = "ifany")
+## Buyse cohort: 5-year distant recurrence by providing center
+table(FiveYearRecurrence = buyseRGcy5$targets$FiveYearRecurrence,
+      buyseRGcy5$targets$Characteristics.BioSourceProvider)
+table(MammaPrint = buyseRGcy5$targets$Factor.Value.MammaPrint.prediction,
+      FiveYearRecurrence = buyseRGcy5$targets$FiveYearRecurrence)
+## patients excluded from the original analysis (unknown ER status)
+table(buyseRGcy5$targets$toExclude)
+```
+
+# Session information
+
+```{r sessionInfo, echo = FALSE}
+sessionInfo()
+```
+
+# References

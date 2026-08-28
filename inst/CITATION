@@ -1,14 +1,16 @@
 bibentry("Article",
-         title = "{A simple and reproducible breast cancer prognostic test}",
-         author = c(person("Marchionni", "Luigi"),
-	person("Afsari", "Bahman"),
-	person("Geman", "Donald"),
-	person("Leek", "Jeffrey T")),
-        journal = "BMC Genomics",
-        year = 2013,
-         textVersion = 
-         paste("L Marchionni, et al.",
-               "A simple and reproducible breast cancer prognostic test.",
-               "BMC Genomics -- In press (2013)"),
-         mheader = "To cite seventyGeneData in publications use:"
-         )
+         title = "A simple and reproducible breast cancer prognostic test",
+         author = c(person("Luigi", "Marchionni"),
+                    person("Bahman", "Afsari"),
+                    person("Donald", "Geman"),
+                    person("Jeffrey T", "Leek")),
+         journal = "BMC Genomics",
+         year = 2013,
+         volume = 14,
+         pages = 336,
+         doi = "10.1186/1471-2164-14-336",
+         textVersion = paste(
+           "L Marchionni, B Afsari, D Geman, JT Leek.",
+           "A simple and reproducible breast cancer prognostic test.",
+           "BMC Genomics 14:336 (2013)."),
+         mheader = "To cite mammaPrintData in publications use:")
