@@ -12,6 +12,7 @@ is listed in `.Rbuildignore` and is not part of the built package.
 | `glasRG.R` | `E-TABM-115_raw.tar.gz` (SDRF, `A-MEXP-318` ADF, 324 raw files) + `seventyGeneSignature` | `data/glasRGcy5.rda`, `data/glasRGcy3.rda` |
 | `buyseRG.R` | `E-TABM-77_raw.tar.gz` (SDRF, ADF, 614 raw files) + `seventyGeneSignature` | `data/buyseRGcy5.rda`, `data/buyseRGcy3.rda` |
 | `helpers.R` | sourced by the scripts: raw-file access, shared processing steps and the regression gate | |
+| `README-zenodo.md`, `MD5SUMS`, `SHA256SUMS` | description and checksums of the Zenodo deposit (raw tarballs, `415530a-s9.xls`, processed `.rda` copies) | |
 
 Run them from the package root, in this order:
 
@@ -22,8 +23,8 @@ Rscript data-raw/buyseRG.R
 ```
 
 The raw inputs come from the Zenodo record doi:[ZENODO_DOI] (through the
-package's own `fetchMammaPrintRaw()`), or from a local `zenodo-deposit/`
-directory holding the upload artifacts (used during development). The same
+package's own `fetchMammaPrintRaw()`), or from local copies of the upload artifacts kept in this
+directory (`E-TABM-*_raw.tar.gz`, `415530a-s9.xls`; the tarballs are git-ignored). The same
 files are served individually by EBI BioStudies (`fetchMammaPrintRaw(...,
 source = "biostudies")`), which the scripts do not use because the complete
 per-array set amounts to several hundred files per accession.

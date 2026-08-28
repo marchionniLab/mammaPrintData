@@ -8,7 +8,6 @@
 ^\.Rprofile$
 ^justfile$
 ^data-raw$
-^zenodo-deposit$
 ^\.github$
 ^_pkgdown\.yml$
 ^docs$

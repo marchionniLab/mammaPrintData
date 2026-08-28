@@ -55,6 +55,4 @@ src/Makevars
 src/Makevars.win
 .claude
 vignettes/articles/data-raw/
-# Zenodo upload artifacts: raw-data tarballs and processed copies (never committed)
-zenodo-deposit/
 *.BiocCheck/

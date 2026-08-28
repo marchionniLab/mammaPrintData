@@ -7,10 +7,10 @@
 ## reproducible regardless of the user's locale.
 invisible(Sys.setlocale("LC_COLLATE", "C"))
 
-## Directory holding the local copies of the Zenodo upload artifacts
-## (build-ignored, never committed). When it is absent the raw files are
-## downloaded from Zenodo through the package's own fetchMammaPrintRaw().
-depositDir <- "zenodo-deposit"
+## Directory holding the local copies of the Zenodo upload artifacts (kept in
+## data-raw/, build-ignored; the tarballs are git-ignored). When they are absent
+## the raw files are downloaded from Zenodo through fetchMammaPrintRaw().
+depositDir <- "data-raw"
 
 ## Return a directory with the extracted raw files of one ArrayExpress
 ## accession (SDRF, ADF and gzipped Feature Extraction files).
