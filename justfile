@@ -98,7 +98,7 @@ test-file file_name:
 check: test test-all-examples build-readme
   #!/usr/bin/env bash
   \builtin set -euo pipefail;
-  if [[ $(\builtin command -v qpdf) ]]; then 
+  if [[ $(\builtin command -v qpdf) ]]; then
     R -q -s -e 'withr::with_envvar(new=list(`_R_CHECK_SYSTEM_CLOCK_`="0"),code={rcmdcheck::rcmdcheck(args = c("--as-cran"), repos = c(CRAN = "https://cloud.r-project.org"));});';
   else
     \builtin echo -ne '\n\nNOTE: LaTeX and PDF handling tools missing.\n';

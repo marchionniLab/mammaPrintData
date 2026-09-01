@@ -68,11 +68,13 @@ breast cancer prognostic test. \emph{BMC Genomics} 2013, 14:336.
 \link[limma:RGList-class]{limma::RGList}
 }
 \author{
-\strong{Maintainer}: [MAINTAINER_NAME] \email{MAINTAINER_EMAIL@example.com} [contributor]
+\strong{Maintainer}: Lucio Queiroz \email{luciorqueiroz@gmail.com} (\href{https://orcid.org/0000-0002-6090-1834}{ORCID})
 
 Authors:
 \itemize{
-  \item Luigi Marchionni \email{marchion@gmail.com}
+  \item Lucio Queiroz \email{luciorqueiroz@gmail.com} (\href{https://orcid.org/0000-0002-6090-1834}{ORCID})
+  \item Claudio Zanettini \email{claudio.zanettini@gmail.com} (\href{https://orcid.org/0000-0001-5043-8033}{ORCID})
+  \item Luigi Marchionni \email{marchion@gmail.com} (\href{https://orcid.org/0000-0002-7336-8071}{ORCID})
 }
 
 }

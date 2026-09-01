@@ -1,16 +1,21 @@
-bibentry("Article",
-         title = "A simple and reproducible breast cancer prognostic test",
-         author = c(person("Luigi", "Marchionni"),
-                    person("Bahman", "Afsari"),
-                    person("Donald", "Geman"),
-                    person("Jeffrey T", "Leek")),
-         journal = "BMC Genomics",
-         year = 2013,
-         volume = 14,
-         pages = 336,
-         doi = "10.1186/1471-2164-14-336",
-         textVersion = paste(
-           "Marchionni L, Afsari B, Geman D, Leek JT (2013).",
-           "A simple and reproducible breast cancer prognostic test.",
-           "BMC Genomics, 14:336. doi:10.1186/1471-2164-14-336."),
-         mheader = "To cite mammaPrintData in publications use:")
+bibentry(
+  "Article",
+  title = "A simple and reproducible breast cancer prognostic test",
+  author = c(
+    person("Luigi", "Marchionni"),
+    person("Bahman", "Afsari"),
+    person("Donald", "Geman"),
+    person("Jeffrey T", "Leek")
+  ),
+  journal = "BMC Genomics",
+  year = 2013,
+  volume = 14,
+  pages = 336,
+  doi = "10.1186/1471-2164-14-336",
+  textVersion = paste(
+    "Marchionni L, Afsari B, Geman D, Leek JT (2013).",
+    "A simple and reproducible breast cancer prognostic test.",
+    "BMC Genomics, 14:336. doi:10.1186/1471-2164-14-336."
+  ),
+  mheader = "To cite mammaPrintData in publications use:"
+)

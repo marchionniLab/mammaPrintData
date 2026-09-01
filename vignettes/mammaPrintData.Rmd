@@ -10,7 +10,7 @@ output:
     toc: true
     toc_float: true
     number_sections: true
-bibliography: mammaPrintData.bib
+bibliography: references.bib
 vignette: >
   %\VignetteIndexEntry{Working with the mammaPrintData package}
   %\VignetteEngine{knitr::rmarkdown}
