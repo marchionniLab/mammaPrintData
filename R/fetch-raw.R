@@ -88,8 +88,10 @@
 #' head(sdrf[["Array Data File"]])
 #'
 #' ## Two raw files from BioStudies
-#' fetchMammaPrintRaw("E-TABM-115", source = "biostudies",
-#'                    files = sdrf[["Array Data File"]][1:2])
+#' fetchMammaPrintRaw("E-TABM-115",
+#'   source = "biostudies",
+#'   files = sdrf[["Array Data File"]][1:2]
+#' )
 #' @export
 fetchMammaPrintRaw <- function(
   accession = c("E-TABM-77", "E-TABM-115", "seventyGene"),

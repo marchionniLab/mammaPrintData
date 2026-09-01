@@ -78,8 +78,10 @@ sdrf <- read.delim(meta[["E-TABM-115.sdrf.txt"]], check.names = FALSE)
 head(sdrf[["Array Data File"]])
 
 ## Two raw files from BioStudies
-fetchMammaPrintRaw("E-TABM-115", source = "biostudies",
-                   files = sdrf[["Array Data File"]][1:2])
+fetchMammaPrintRaw("E-TABM-115",
+  source = "biostudies",
+  files = sdrf[["Array Data File"]][1:2]
+)
 \dontshow{\}) # examplesIf}
 }
 \seealso{

@@ -54,8 +54,10 @@ class(buyseRGcy5)
 dim(buyseRGcy5)
 head(buyseRGcy5$targets, n = 5)
 head(buyseRGcy5$genes, n = 5)
-table(buyseRGcy5$targets$FiveYearRecurrence,
-      buyseRGcy5$targets$Characteristics.BioSourceProvider)
+table(
+  buyseRGcy5$targets$FiveYearRecurrence,
+  buyseRGcy5$targets$Characteristics.BioSourceProvider
+)
 }
 \references{
 Buyse M, Loi S, van 't Veer L, et al. Validation and clinical utility of
