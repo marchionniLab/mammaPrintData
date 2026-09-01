@@ -10,7 +10,7 @@ bibentry("Article",
          pages = 336,
          doi = "10.1186/1471-2164-14-336",
          textVersion = paste(
-           "L Marchionni, B Afsari, D Geman, JT Leek.",
+           "Marchionni L, Afsari B, Geman D, Leek JT (2013).",
            "A simple and reproducible breast cancer prognostic test.",
-           "BMC Genomics 14:336 (2013)."),
+           "BMC Genomics, 14:336. doi:10.1186/1471-2164-14-336."),
          mheader = "To cite mammaPrintData in publications use:")
