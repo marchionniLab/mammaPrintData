@@ -171,11 +171,16 @@ fetchMammaPrintRaw <- function(
   paths <- vapply(
     urls,
     function(u) {
-      if (verbose) {
-        BiocFileCache::bfcrpath(cache, rnames = u)
-      } else {
-        base::suppressMessages(BiocFileCache::bfcrpath(cache, rnames = u))
-      }
+      withCallingHandlers(
+        BiocFileCache::bfcrpath(cache, rnames = u),
+        message = function(cond) {
+          # BiocFileCache reports e.g. "adding rname '<url>'"; keep those
+          # progress messages only when verbose, muffle them otherwise.
+          if (!verbose) {
+            invokeRestart("muffleMessage")
+          }
+        }
+      )
     },
     character(1L),
     USE.NAMES = FALSE
