@@ -39,7 +39,7 @@ raw files archived on Zenodo, \doi{[ZENODO_DOI]} (see
 \code{\link[=fetchMammaPrintRaw]{fetchMammaPrintRaw()}}).
 }
 \usage{
-buyseRGcy5
+data(buyseRGcy5)
 }
 \description{
 A \code{limma} \code{RGList} with the raw two-color intensities for the 307 breast
@@ -50,6 +50,7 @@ pool "MRP" was labeled with Cy5 and the patient RNA with Cy3. See
 }
 \examples{
 library(limma)
+data(buyseRGcy5)
 class(buyseRGcy5)
 dim(buyseRGcy5)
 head(buyseRGcy5$targets, n = 5)

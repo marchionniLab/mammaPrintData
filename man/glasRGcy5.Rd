@@ -37,7 +37,7 @@ raw files archived on Zenodo, \doi{[ZENODO_DOI]} (see
 \code{\link[=fetchMammaPrintRaw]{fetchMammaPrintRaw()}}).
 }
 \usage{
-glasRGcy5
+data(glasRGcy5)
 }
 \description{
 A \code{limma} \code{RGList} with the raw two-color intensities for the 162 breast
@@ -50,6 +50,7 @@ available from ArrayExpress is attached to this set only; see
 }
 \examples{
 library(limma)
+data(glasRGcy5)
 class(glasRGcy5)
 dim(glasRGcy5)
 head(glasRGcy5$targets, n = 5)

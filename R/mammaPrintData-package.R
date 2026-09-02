@@ -22,7 +22,7 @@
 #' 70-gene signature itself is available as [seventyGeneSignature].
 #'
 #' @section Raw data:
-#' Since version 1.49.2 the original ArrayExpress files are no longer
+#' Since version 1.99.0 the original ArrayExpress files are no longer
 #' bundled with the package. They are archived on Zenodo
 #' (\doi{[ZENODO_DOI]}) and remain available per file from EBI BioStudies;
 #' [fetchMammaPrintRaw()] downloads them from either source and caches them
@@ -30,10 +30,11 @@
 #' files are kept in the `data-raw/` directory of the package sources.
 #'
 #' @section Backward compatibility:
-#' Data sets are lazy-loaded, one object per file. The legacy combined files
-#' `glasRG.rda` and `buyseRG.rda` were removed, so `data(glasRG)` and
-#' `data(buyseRG)` no longer work: refer to `glasRGcy5`, `glasRGcy3`,
-#' `buyseRGcy5` and `buyseRGcy3` directly, or call `data(glasRGcy5)` etc.
+#' Each object is stored in its own file and loaded explicitly with `data()`.
+#' The legacy combined files `glasRG.rda` and `buyseRG.rda` were removed, so
+#' `data(glasRG)` and `data(buyseRG)` no longer work: call `data(glasRGcy5)`,
+#' `data(glasRGcy3)`, `data(buyseRGcy5)` or `data(buyseRGcy3)` instead, one
+#' object per call.
 #'
 #' @references
 #' Glas AM, Floore A, Delahaye LJ, et al. Converting a breast cancer

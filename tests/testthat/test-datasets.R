@@ -5,10 +5,17 @@ rgDatasets <- list(
   buyseRGcy3 = c(1900L, 307L)
 )
 
+## LazyData is false: load the data sets explicitly into this file's environment
+data(
+  list = c(names(rgDatasets), "seventyGeneSignature"),
+  package = "mammaPrintData",
+  envir = environment()
+)
+
 test_that("RGList data sets have the expected structure", {
   skip_if_not_installed("limma")
   for (name in names(rgDatasets)) {
-    x <- get(name, envir = asNamespace("mammaPrintData"))
+    x <- get(name)
     expect_true(inherits(x, "RGList"))
     expect_identical(dim(x), rgDatasets[[name]], info = name)
     expect_true(
@@ -77,7 +84,7 @@ test_that("seventyGeneSignature is the 231-reporter table with 70 flagged", {
   )
   expect_identical(sum(seventyGeneSignature$signature70), 70L)
   expect_false(is.unsorted(rev(abs(seventyGeneSignature$correlation))))
-  expect_false(anyDuplicated(seventyGeneSignature$accession) > 0)
+  expect_false(anyDuplicated(seventyGeneSignature$accession) > 0L)
 })
 
 test_that("fetchMammaPrintRaw() validates its arguments without network access", {

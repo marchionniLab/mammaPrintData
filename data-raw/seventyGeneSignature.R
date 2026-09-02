@@ -22,8 +22,8 @@ gns231$signature70 <- seq_len(nrow(gns231)) <= 70
 seventyGeneSignature <- as.data.frame(gns231, stringsAsFactors = FALSE)
 rownames(seventyGeneSignature) <- NULL
 stopifnot(
-  nrow(seventyGeneSignature) == 231,
-  sum(seventyGeneSignature$signature70) == 70,
+  identical(nrow(seventyGeneSignature), 231L),
+  identical(sum(seventyGeneSignature$signature70), 70L),
   identical(
     colnames(seventyGeneSignature),
     c("accession", "correlation", "gene.name", "description", "signature70")

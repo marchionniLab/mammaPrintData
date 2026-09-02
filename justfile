@@ -279,7 +279,7 @@ link-dev-docs branch_name:
 # <<< rstats-package-dev-tasks <<<
 
 # =============================================================================
-# Package specific Tasks
+# Bioconductor specific Tasks
 # =============================================================================
 
 # Make sure pushes to Bioconductor git are disabled by default
@@ -290,3 +290,31 @@ link-dev-docs branch_name:
   git push bioconductor devel;
   git remote set-url --push bioconductor DISABLED;
 
+# Check Cyclomatic Complexity of All Package Functions (fails above limit)
+check-complexity limit='10': install-dev-deps
+  #!/usr/bin/env bash
+  \builtin set -euo pipefail;
+  R -q -s -e 'if(!requireNamespace("pak", quietly=TRUE)) {install.packages("pak")};';
+  R -q -s -e 'if(!requireNamespace("cyclocomp", quietly=TRUE)) {pak::pak("cyclocomp")};';
+  R -q -s -e 'devtools::load_all(quiet=TRUE);ns<-asNamespace("{{ package_name }}");fns<-Filter(function(n) is.function(get(n,envir=ns)),ls(ns,all.names=TRUE));res<-data.frame(fun=fns,cyclocomp=vapply(fns,function(n) cyclocomp::cyclocomp(get(n,envir=ns)),integer(1L)));res<-res[order(-res$cyclocomp),];print(res,row.names=FALSE);bad<-res[res$cyclocomp>{{ limit }},];if(nrow(bad)>0){cat(sprintf("ERROR: %d function(s) exceed the cyclomatic complexity limit ({{ limit }})\n",nrow(bad)));quit(save="no",status=1)};cat("All functions within the cyclomatic complexity limit ({{ limit }})\n");';
+
+# Run Bioconductor BiocCheck on the Built Package Tarball
+check-bioc: install-dev-deps check-complexity
+  #!/usr/bin/env bash
+  \builtin set -euo pipefail;
+  R -q -s -e 'if(!requireNamespace("pak", quietly=TRUE)) {install.packages("pak")};';
+  R -q -s -e 'if(!requireNamespace("BiocCheck", quietly=TRUE)) {pak::pak("BiocCheck")};';
+  __pkg_version="$(R -q --no-echo --silent -e 'cat(read.dcf("DESCRIPTION", fields="Version"))')";
+  __tarball="{{ package_name }}_${__pkg_version}.tar.gz";
+  R CMD build .;
+  # Run from a scratch directory: BiocCheck writes a `<pkg>.BiocCheck/`
+  # + folder next to the tarball and errors on later runs if that folder
+  # + ends up inside the package directory or tarball.
+  __check_dir="$(mktemp -d)";
+  \mv "${__tarball}" "${__check_dir}/";
+  (
+    \builtin cd "${__check_dir}";
+    BIOCCHECK_TARBALL="${__tarball}" R -q -s -e 'res <- BiocCheck::BiocCheck(Sys.getenv("BIOCCHECK_TARBALL")); quit(save="no", status=as.integer(length(res$error) > 0))';
+  );
+  \rm -rf "${__check_dir}";
+  \builtin echo "BiocCheck done!";

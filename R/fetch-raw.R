@@ -174,10 +174,10 @@ fetchMammaPrintRaw <- function(
       if (verbose) {
         BiocFileCache::bfcrpath(cache, rnames = u)
       } else {
-        suppressMessages(BiocFileCache::bfcrpath(cache, rnames = u))
+        base::suppressMessages(BiocFileCache::bfcrpath(cache, rnames = u))
       }
     },
-    character(1),
+    character(1L),
     USE.NAMES = FALSE
   )
   names(paths) <- names

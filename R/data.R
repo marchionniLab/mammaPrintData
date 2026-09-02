@@ -50,6 +50,7 @@
 #'   [limma::RGList-class]
 #' @examples
 #' library(limma)
+#' data(glasRGcy5)
 #' class(glasRGcy5)
 #' dim(glasRGcy5)
 #' head(glasRGcy5$targets, n = 5)
@@ -94,6 +95,8 @@
 #'   [limma::RGList-class]
 #' @examples
 #' library(limma)
+#' data(glasRGcy3)
+#' data(glasRGcy5)
 #' class(glasRGcy3)
 #' dim(glasRGcy3)
 #' head(glasRGcy3$targets, n = 5)
@@ -150,6 +153,7 @@
 #'   [limma::RGList-class]
 #' @examples
 #' library(limma)
+#' data(buyseRGcy5)
 #' class(buyseRGcy5)
 #' dim(buyseRGcy5)
 #' head(buyseRGcy5$targets, n = 5)
@@ -192,6 +196,8 @@
 #'   [limma::RGList-class]
 #' @examples
 #' library(limma)
+#' data(buyseRGcy3)
+#' data(buyseRGcy5)
 #' class(buyseRGcy3)
 #' dim(buyseRGcy3)
 #' head(buyseRGcy3$targets, n = 5)
@@ -236,6 +242,8 @@
 #' \doi{10.1038/415530a}.
 #' @seealso [glasRGcy5], [buyseRGcy5]
 #' @examples
+#' data(seventyGeneSignature)
+#' data(glasRGcy5)
 #' head(seventyGeneSignature)
 #' table(seventyGeneSignature$signature70)
 #' ## features of the MammaPrint array mapped to the 70-gene signature

@@ -32,6 +32,8 @@ BiocManager::install("mammaPrintData")
 library(mammaPrintData)
 library(limma)
 
+data(glasRGcy5)
+data(seventyGeneSignature)
 dim(glasRGcy5)
 head(glasRGcy5$targets)
 head(seventyGeneSignature)

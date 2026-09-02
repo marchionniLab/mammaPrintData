@@ -25,7 +25,7 @@ served, a copy is archived on Zenodo, \doi{[ZENODO_DOI]} (see
 \code{\link[=fetchMammaPrintRaw]{fetchMammaPrintRaw()}}).
 }
 \usage{
-seventyGeneSignature
+data(seventyGeneSignature)
 }
 \description{
 Table S2 of van 't Veer et al. (2002): the 231 reporters of the Agilent
@@ -40,6 +40,8 @@ array (\code{genes231} / \code{genes70} columns of the \code{genes} component of
 \code{RGList} data sets).
 }
 \examples{
+data(seventyGeneSignature)
+data(glasRGcy5)
 head(seventyGeneSignature)
 table(seventyGeneSignature$signature70)
 ## features of the MammaPrint array mapped to the 70-gene signature

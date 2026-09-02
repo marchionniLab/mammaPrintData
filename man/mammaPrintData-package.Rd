@@ -29,7 +29,7 @@ prognostic lists) and patient-level clinical information attached. The
 }
 \section{Raw data}{
 
-Since version 1.49.2 the original ArrayExpress files are no longer
+Since version 1.99.0 the original ArrayExpress files are no longer
 bundled with the package. They are archived on Zenodo
 (\doi{[ZENODO_DOI]}) and remain available per file from EBI BioStudies;
 \code{\link[=fetchMammaPrintRaw]{fetchMammaPrintRaw()}} downloads them from either source and caches them
@@ -39,10 +39,11 @@ files are kept in the \verb{data-raw/} directory of the package sources.
 
 \section{Backward compatibility}{
 
-Data sets are lazy-loaded, one object per file. The legacy combined files
-\code{glasRG.rda} and \code{buyseRG.rda} were removed, so \code{data(glasRG)} and
-\code{data(buyseRG)} no longer work: refer to \code{glasRGcy5}, \code{glasRGcy3},
-\code{buyseRGcy5} and \code{buyseRGcy3} directly, or call \code{data(glasRGcy5)} etc.
+Each object is stored in its own file and loaded explicitly with \code{data()}.
+The legacy combined files \code{glasRG.rda} and \code{buyseRG.rda} were removed, so
+\code{data(glasRG)} and \code{data(buyseRG)} no longer work: call \code{data(glasRGcy5)},
+\code{data(glasRGcy3)}, \code{data(buyseRGcy5)} or \code{data(buyseRGcy3)} instead, one
+object per call.
 }
 
 \references{

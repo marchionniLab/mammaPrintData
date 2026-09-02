@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE
 )
-options(width = 90)
+options(width = 90L)
 ```
 
 # Overview
@@ -74,13 +74,19 @@ is summarized in Section \@ref(generation).
 
 # The processed data sets
 
-Data sets are lazy-loaded: after attaching the package they can be referred
-to by name. `r Biocpkg("limma")` provides the methods (`dim()`, `print()`,
+Each data set lives in its own file and is loaded explicitly with `data()`
+(`LazyData` is disabled, as recommended by Bioconductor for data packages). `r Biocpkg("limma")` provides the methods (`dim()`, `print()`,
 subsetting, ...) for `RGList` objects.
 
 ```{r load}
 library(mammaPrintData)
 library(limma)
+
+data(glasRGcy5)
+data(glasRGcy3)
+data(buyseRGcy5)
+data(buyseRGcy3)
+data(seventyGeneSignature)
 ```
 
 ## Glas cohort
@@ -153,7 +159,7 @@ the top 70 reporters.
 
 ```{r signature}
 head(seventyGeneSignature)
-table(seventyGeneSignature$signature70)
+table(seventyGeneSignature$`signature70`)
 ```
 
 # Retrieving the raw data {#raw}

@@ -2,7 +2,7 @@ Type: Package
 Package: mammaPrintData
 Title: Gene Expression Data from the MammaPrint Validation Cohorts of the
     Glas and Buyse Studies
-Version: 1.49.2
+Version: 1.99.0
 Authors@R: c(
     person("Lucio", "Queiroz", , "luciorqueiroz@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6090-1834")),
@@ -27,7 +27,7 @@ License: Artistic-2.0
 URL: https://github.com/marchionniLab/mammaPrintData
 BugReports: https://github.com/marchionniLab/mammaPrintData/issues
 Depends:
-    R (>= 4.1)
+    R (>= 4.6.0)
 Imports:
     BiocFileCache,
     utils
@@ -41,10 +41,12 @@ Suggests:
 VignetteBuilder:
     knitr
 biocViews: ExperimentData, ExpressionData, CancerData, BreastCancerData,
-    MicroarrayData, TwoChannelData
+    MicroarrayData, TwoChannelData, ArrayExpress
+Config/Needs/dev: devtools, pkgload, remotes, rcmdcheck, covr, testthat,
+    usethis, pak, knitr, quarto, pkgdown, roxygen2, roxygen2md, lintr,
+    styler, cyclocomp, BiocCheck, BiocManager
 Config/roxygen2/markdown: TRUE
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3
 Encoding: UTF-8
-LazyData: true
-LazyDataCompression: xz
+LazyData: false

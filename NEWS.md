@@ -1,4 +1,4 @@
-# Changes in version 1.49.2
+# Changes in version 1.99.0
 
 ## Data distribution
 
@@ -8,12 +8,12 @@
   file from EBI BioStudies. The new exported function `fetchMammaPrintRaw()`
   retrieves them from either source and caches the downloads with
   `BiocFileCache`.
-- Each data set is now stored in its own xz-compressed `.rda` file and is
-  lazy-loaded (`LazyData: true`): `glasRGcy5`, `glasRGcy3`, `buyseRGcy5`
-  and `buyseRGcy3` are available directly after `library(mammaPrintData)`.
-  The legacy combined files `data/glasRG.rda` and `data/buyseRG.rda` were
-  removed, so `data(glasRG)` and `data(buyseRG)` no longer work; use
-  `data(glasRGcy5)` etc. or simply refer to the objects by name.
+- Each data set is now stored in its own xz-compressed `.rda` file, one
+  object per file, loaded explicitly with `data()` (`LazyData: false`, as
+  recommended by Bioconductor for data packages). The legacy combined files
+  `data/glasRG.rda` and `data/buyseRG.rda` were removed, so `data(glasRG)`
+  and `data(buyseRG)` no longer work; call `data(glasRGcy5)`,
+  `data(glasRGcy3)`, `data(buyseRGcy5)` or `data(buyseRGcy3)` instead.
 - New processed data set `seventyGeneSignature`: the 231 prognostic
   reporters of van 't Veer et al. (2002, Nature 415:530), Table S2, with the
   70-gene MammaPrint signature flagged, parsed from the supplementary
