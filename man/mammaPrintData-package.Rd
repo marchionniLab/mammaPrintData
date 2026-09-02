@@ -78,5 +78,10 @@ Authors:
   \item Luigi Marchionni \email{marchion@gmail.com} (\href{https://orcid.org/0000-0002-7336-8071}{ORCID})
 }
 
+Other contributors:
+\itemize{
+  \item National Institutes of Health (\href{https://ror.org/01cwqze88}{ROR}) (note: Grant P30 CA006973) [funder]
+}
+
 }
 \keyword{internal}

@@ -9,7 +9,9 @@ Authors@R: c(
     person("Claudio", "Zanettini", , "claudio.zanettini@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-5043-8033")),
     person("Luigi", "Marchionni", , "marchion@gmail.com", role = "aut",
-           comment = c(ORCID = "0000-0002-7336-8071"))
+           comment = c(ORCID = "0000-0002-7336-8071")),
+    person("National Institutes of Health", role = "fnd",
+           comment = c(ROR = "01cwqze88", note = "Grant P30 CA006973"))
   )
 Description: Curated gene expression data from the two breast cancer
     cohorts used to develop and validate the MammaPrint 70-gene prognostic
