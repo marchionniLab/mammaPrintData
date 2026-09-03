@@ -22,7 +22,7 @@ Rscript data-raw/glasRG.R
 Rscript data-raw/buyseRG.R
 ```
 
-The raw inputs come from the Zenodo record doi:[ZENODO_DOI] (through the
+The raw inputs come from the Zenodo record doi:10.5281/zenodo.22285418 (through the
 package's own `fetchMammaPrintRaw()`), or from local copies of the upload artifacts kept in this
 directory (`E-TABM-*_raw.tar.gz`, `415530a-s9.xls`; all git-ignored). The same
 files are served individually by EBI BioStudies (`fetchMammaPrintRaw(...,

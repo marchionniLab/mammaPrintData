@@ -64,13 +64,18 @@ hence normalization is required prior to any analysis.
 
 Up to version 1.49.1 the original ArrayExpress files (about 210 MB) were
 bundled in the package sources. They are now archived on Zenodo
-(doi:[ZENODO_DOI]) and remain available per file from EBI BioStudies, the
+(doi:10.5281/zenodo.22285418) and remain available per file from EBI BioStudies, the
 current home of ArrayExpress [@Brazma2003]. The function
 `fetchMammaPrintRaw()` retrieves them from either source (see Section
 \@ref(raw)). The complete code used to generate the processed objects from
 the raw files is kept in the `data-raw/` directory of the package sources
 (<https://github.com/marchionniLab/mammaPrintData/tree/devel/data-raw>) and
 is summarized in Section \@ref(generation).
+
+The Zenodo record is published under CC-BY-4.0; the ArrayExpress files are
+redistributed under the EMBL-EBI terms of use with attribution to the
+original studies [@Glas2006; @Buyse2006], and the van 't Veer supplementary
+table is archived verbatim [@vantVeer2002].
 
 # The processed data sets
 
@@ -211,7 +216,7 @@ library(readxl)
 gns231 <- read_xls(fetchMammaPrintRaw("seventyGene"))
 colnames(gns231) <- gsub("\\s#", "", colnames(gns231))
 colnames(gns231) <- gsub("\\s", ".", colnames(gns231))
-gns231 <- gns231[, -grep("sp_xref_keyword_list", colnames(gns231))]
+gns231 <- gns231[, -grep("sp_xref_keyword_list", colnames(gns231), fixed = TRUE)]
 gns231 <- gns231[order(abs(gns231$correlation), decreasing = TRUE), ]
 gns231$signature70 <- seq_len(nrow(gns231)) <= 70
 seventyGeneSignature <- as.data.frame(gns231)

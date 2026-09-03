@@ -21,7 +21,7 @@ signature.
 \source{
 Supplementary Information of van 't Veer et al. (2002), file
 \verb{415530a-s9.xls} (Table S2); the original Nature URL is no longer
-served, a copy is archived on Zenodo, \doi{[ZENODO_DOI]} (see
+served, a copy is archived on Zenodo, \doi{10.5281/zenodo.22285418} (see
 \code{\link[=fetchMammaPrintRaw]{fetchMammaPrintRaw()}}).
 }
 \usage{

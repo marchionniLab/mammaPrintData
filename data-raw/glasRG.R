@@ -32,16 +32,14 @@ colnames(targets) <- gsub("\\.$", "", gsub("\\.\\.", ".", colnames(targets)))
 ## the other half the "MRP" reference pool (Cy3) without it.
 stopifnot(
   nrow(targets) == 324,
-  all(table(targets$Label) == 162),
-  all(
-    is.na(targets$Characteristics.EventDistantMetastases) ==
-      (targets$Sample.Name == "MRP")
-  )
+  table(targets$Label) == 162,
+  is.na(targets$Characteristics.EventDistantMetastases) ==
+    (targets$Sample.Name == "MRP")
 )
 
 ## ---- RGList objects, one per dye-swap set ------------------------------
 rawFiles <- list.files(rawDir, pattern = "^US")
-stopifnot(all(paste0(targets$Array.Data.File, ".gz") %in% rawFiles))
+stopifnot(paste0(targets$Array.Data.File, ".gz") %in% rawFiles)
 ## Hybridizations described through the reference RNA labeled with Cy3
 targetsCy3info <- targets[
   targets$Source.Name == "MRP" & targets$Label == "Cy3",
@@ -53,13 +51,13 @@ targetsCy5info <- targets[
 stopifnot(
   nrow(targetsCy3info) == 162,
   nrow(targetsCy5info) == 162,
-  all(targetsCy3info$Array.Data.File != targetsCy5info$Array.Data.File)
+  targetsCy3info$Array.Data.File != targetsCy5info$Array.Data.File
 )
 RGcy3 <- readRawRG(targetsCy3info, rawDir)
 ## NB: the original vignette text read the Cy3 file list here as well (a
 ## typo); the shipped objects were built from the Cy5 file list.
 RGcy5 <- readRawRG(targetsCy5info, rawDir)
-stopifnot(all(dim(RGcy3) == c(1900, 162)), all(dim(RGcy5) == c(1900, 162)))
+stopifnot(dim(RGcy3) == c(1900, 162), dim(RGcy5) == c(1900, 162))
 
 ## The "LogRatio" column contains a few "null" strings in this series, so
 ## `logRatio` is read as a character matrix. The original vignette showed a

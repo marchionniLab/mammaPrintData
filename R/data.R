@@ -39,7 +39,7 @@
 #'
 #' @source ArrayExpress/BioStudies accession E-TABM-115,
 #'   <https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-TABM-115>;
-#'   raw files archived on Zenodo, \doi{[ZENODO_DOI]} (see
+#'   raw files archived on Zenodo, \doi{10.5281/zenodo.22285418} (see
 #'   [fetchMammaPrintRaw()]).
 #' @references
 #' Glas AM, Floore A, Delahaye LJ, et al. Converting a breast cancer
@@ -142,7 +142,7 @@
 #'
 #' @source ArrayExpress/BioStudies accession E-TABM-77,
 #'   <https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-TABM-77>;
-#'   raw files archived on Zenodo, \doi{[ZENODO_DOI]} (see
+#'   raw files archived on Zenodo, \doi{10.5281/zenodo.22285418} (see
 #'   [fetchMammaPrintRaw()]).
 #' @references
 #' Buyse M, Loi S, van 't Veer L, et al. Validation and clinical utility of
@@ -234,7 +234,7 @@
 #'
 #' @source Supplementary Information of van 't Veer et al. (2002), file
 #'   `415530a-s9.xls` (Table S2); the original Nature URL is no longer
-#'   served, a copy is archived on Zenodo, \doi{[ZENODO_DOI]} (see
+#'   served, a copy is archived on Zenodo, \doi{10.5281/zenodo.22285418} (see
 #'   [fetchMammaPrintRaw()]).
 #' @references
 #' van 't Veer LJ, Dai H, van de Vijver MJ, et al. Gene expression profiling

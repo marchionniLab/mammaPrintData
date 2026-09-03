@@ -41,7 +41,7 @@ seventyGeneXls <- function() {
 prognosticSignatureLists <- function() {
   f <- file.path("data", "seventyGeneSignature.rda")
   if (!file.exists(f)) {
-    stop("Run data-raw/seventyGeneSignature.R first")
+    stop("Run data-raw/seventyGeneSignature.R first", call. = FALSE)
   }
   e <- new.env()
   load(f, envir = e)
@@ -56,7 +56,7 @@ prognosticSignatureLists <- function() {
     gns70any = unique(c(gns70$accession, gns70$gene.name))
   )
   ## Remove empty elements
-  progSig <- lapply(progSig, function(x) x[x != ""])
+  progSig <- lapply(progSig, function(x) x[nzchar(x)])
   ## Correlations keyed by gene symbol (where available) and by accession
   gns231Cors <- data.frame(
     stringsAsFactors = FALSE,
@@ -72,7 +72,7 @@ prognosticSignatureLists <- function() {
   ## NB: the original code also computed a de-duplicated version but then
   ## overwrote it with this one; duplicates are removed later, after the
   ## merge with the array annotation (see annotateSignature()).
-  progSig$gns231Cors <- gns231Cors[gns231Cors$ID != "", ]
+  progSig$gns231Cors <- gns231Cors[nzchar(gns231Cors$ID), ]
   progSig
 }
 
@@ -136,13 +136,13 @@ annotateSignature <- function(genes, progSig) {
 ## left untouched. This reproduces the objects as originally shipped.
 attachAnnotation <- function(RG, genes) {
   if (nrow(genes) != nrow(RG)) {
-    stop("Wrong number of features, check objects")
+    stop("Wrong number of features, check objects", call. = FALSE)
   }
   if (!all(genes$Reporter.Name == RG$genes$ID)) {
     RG <- RG[order(RG$genes$ID), ]
     genes <- genes[order(genes$Reporter.Name), ]
     if (!all(genes$Reporter.Name == RG$genes$ID)) {
-      stop("Wrong gene order, check objects")
+      stop("Wrong gene order, check objects", call. = FALSE)
     }
   }
   RG$genes <- genes
@@ -189,7 +189,8 @@ checkAgainstShipped <- function(new, name, legacyFile = NULL) {
         "Regenerated '",
         name,
         "' differs from the shipped version. ",
-        "Inspect the differences; set MAMMAPRINTDATA_FORCE_UPDATE=1 to overwrite."
+        "Inspect the differences; set MAMMAPRINTDATA_FORCE_UPDATE=1 to overwrite.",
+        call. = FALSE
       )
     }
     warning(

@@ -35,7 +35,7 @@ original van 't Veer correlation with outcome, where available);
 \source{
 ArrayExpress/BioStudies accession E-TABM-77,
 \url{https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-TABM-77};
-raw files archived on Zenodo, \doi{[ZENODO_DOI]} (see
+raw files archived on Zenodo, \doi{10.5281/zenodo.22285418} (see
 \code{\link[=fetchMammaPrintRaw]{fetchMammaPrintRaw()}}).
 }
 \usage{

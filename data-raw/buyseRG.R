@@ -31,7 +31,7 @@ stopifnot(
   sum(targets$Sample.Name != "MRP") == 614
 )
 rawFiles <- list.files(rawDir, pattern = "^US")
-stopifnot(all(paste0(targets$Array.Data.File, ".gz") %in% rawFiles))
+stopifnot(paste0(targets$Array.Data.File, ".gz") %in% rawFiles)
 
 ## Split the rows by CANCER vs REFERENCE sample and by channel
 caList <- !targets$Sample.Name == "MRP"
@@ -49,9 +49,9 @@ colnames(targetsRef.ch2) <- paste(colnames(targetsRef.ch2), "Cy3", sep = ".")
 
 ## Combine the two channels of each hybridization into one targets row.
 ## Swap set 1: patient RNA in Cy5, reference in Cy3
-stopifnot(all(
+stopifnot(
   targetsCa.ch1$Array.Data.File.Cy5 == targetsRef.ch2$Array.Data.File.Cy3
-))
+)
 colsSel <- apply(targetsCa.ch1 == targetsRef.ch2, 2, function(x) {
   sum(x) != length(x)
 })
@@ -69,9 +69,9 @@ targetsSwap1 <- targetsSwap1[, order(colnames(targetsSwap1))]
 colnames(targetsSwap1) <- gsub("\\.Cy5$", "", colnames(targetsSwap1))
 targetsSwap1 <- targetsSwap1[order(targetsSwap1$Cy5, method = "radix"), ]
 ## Swap set 2: patient RNA in Cy3, reference in Cy5
-stopifnot(all(
+stopifnot(
   targetsCa.ch2$Array.Data.File.Cy3 == targetsRef.ch1$Array.Data.File.Cy5
-))
+)
 colsSel <- apply(targetsCa.ch2 == targetsRef.ch1, 2, function(x) {
   sum(x) != length(x)
 })
@@ -99,7 +99,7 @@ colnames(RGcy3) <- paste("BC", targetsSwap1$Sample.Name, sep = ".")
 ## typo); the shipped objects were built from the swap-2 file list.
 RGcy5 <- readRawRG(targetsSwap2, rawDir)
 colnames(RGcy5) <- paste("BC", targetsSwap2$Sample.Name, sep = ".")
-stopifnot(all(dim(RGcy3) == c(1900, 307)), all(dim(RGcy5) == c(1900, 307)))
+stopifnot(dim(RGcy3) == c(1900, 307), dim(RGcy5) == c(1900, 307))
 
 ## `logRatio` is numeric for this series (no "null" strings); the conversion
 ## shown in the original vignette (chunk checkMode2) is therefore a no-op.
@@ -136,17 +136,20 @@ curateEndpoints <- function(pheno) {
   ## Overall survival: "x years" or "x years plus" (censored)
   OS <- pheno$Factor.Value.SurvivalTime
   pheno$OS <- as.numeric(gsub("\\s.+", "", OS))
-  pheno$OSevent <- 1 * (!1:nrow(pheno) %in% grep("plus", OS))
+  pheno$OSevent <- 1 *
+    (seq_len(nrow(pheno)) %notin% grep("plus", OS, fixed = TRUE))
   pheno$TenYearSurv <- pheno$OS < 10 & pheno$OSevent == 1
   ## Disease-free survival
   DFS <- pheno$Factor.Value.Disease.Free.Survival
   pheno$DFS <- as.numeric(gsub("\\s.+", "", DFS))
-  pheno$DFSevent <- 1 * (!1:nrow(pheno) %in% grep("plus", DFS))
+  pheno$DFSevent <- 1 *
+    (seq_len(nrow(pheno)) %notin% grep("plus", DFS, fixed = TRUE))
   pheno$FiveYearDiseaseFree <- pheno$DFS < 5 & pheno$DFSevent == 1
   ## Time to distant metastasis
   TTM <- pheno$Factor.Value.DistantMetastasis.Free.Survival
   pheno$TTM <- as.numeric(gsub("\\s.+", "", TTM))
-  pheno$TTMevent <- 1 * (!1:nrow(pheno) %in% grep("plus", TTM))
+  pheno$TTMevent <- 1 *
+    (seq_len(nrow(pheno)) %notin% grep("plus", TTM, fixed = TRUE))
   pheno$FiveYearRecurrence <- pheno$TTM < 5 & pheno$TTMevent == 1
   ## Patients excluded in the original analysis (unknown ER status)
   pheno$toExclude <- pheno$Factor.Value.ER.status == "unknown"

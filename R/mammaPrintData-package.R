@@ -24,10 +24,17 @@
 #' @section Raw data:
 #' Since version 1.99.0 the original ArrayExpress files are no longer
 #' bundled with the package. They are archived on Zenodo
-#' (\doi{[ZENODO_DOI]}) and remain available per file from EBI BioStudies;
+#' (\doi{10.5281/zenodo.22285418}) and remain available per file from EBI BioStudies;
 #' [fetchMammaPrintRaw()] downloads them from either source and caches them
 #' locally. The scripts that regenerate the processed objects from the raw
 #' files are kept in the `data-raw/` directory of the package sources.
+#'
+#' The Zenodo record is published under CC-BY-4.0. The ArrayExpress files it
+#' contains are redistributed under the EMBL-EBI terms of use
+#' (<https://www.ebi.ac.uk/about/terms-of-use>), with attribution to the
+#' original studies; the spreadsheet `415530a-s9.xls` is the supplementary
+#' Table S2 of van 't Veer et al. (2002), archived verbatim because the
+#' original URL is no longer served.
 #'
 #' @section Backward compatibility:
 #' Each object is stored in its own file and loaded explicitly with `data()`.

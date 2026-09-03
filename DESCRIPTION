@@ -23,8 +23,9 @@ Description: Curated gene expression data from the two breast cancer
     dye orientation, with probe annotation and patient-level clinical
     information attached. The 70-gene signature itself is included as a
     processed data set. The original raw files from ArrayExpress
-    (E-TABM-77 and E-TABM-115) are archived on Zenodo <doi:[ZENODO_DOI]>
-    and can be retrieved with 'fetchMammaPrintRaw()'.
+    (E-TABM-77 and E-TABM-115) are archived on Zenodo
+    <doi:10.5281/zenodo.22285418> and can be retrieved with
+    'fetchMammaPrintRaw()'.
 License: Artistic-2.0
 URL: https://github.com/marchionniLab/mammaPrintData
 BugReports: https://github.com/marchionniLab/mammaPrintData/issues

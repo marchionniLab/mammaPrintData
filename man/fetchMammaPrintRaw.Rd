@@ -53,7 +53,8 @@ ArrayExpress accession (\verb{E-TABM-115_raw.tar.gz}, 70 MB, and
 all gzipped raw files exactly as originally retrieved from
 ArrayExpress, plus the spreadsheet. The function returns the path to the
 archive (or spreadsheet); extract it with \code{\link[utils:untar]{utils::untar()}}. Files are
-served from Zenodo record \doi{[ZENODO_DOI]}.
+served from Zenodo record \doi{10.5281/zenodo.22285418}. The record is published under CC-BY-4.0
+with per-file provenance (see the package-level help).
 \item \code{"biostudies"}: the per-file tree served by EBI BioStudies (the current
 home of ArrayExpress). Only the SDRF and the ADF are downloaded by
 default; individual raw files (uncompressed, several hundred of them

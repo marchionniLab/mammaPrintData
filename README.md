@@ -42,7 +42,13 @@ head(seventyGeneSignature)
 ## Raw data
 
 The original ArrayExpress files are no longer bundled with the package. They
-are archived on Zenodo (doi:[ZENODO_DOI]) and served per file by EBI
+are archived on Zenodo (doi:10.5281/zenodo.22285418) and served per file by EBI
 BioStudies; `fetchMammaPrintRaw()` downloads and caches them from either
 source. The scripts that regenerate the processed objects live in
 `data-raw/`.
+
+The Zenodo record is published under CC-BY-4.0; the ArrayExpress files in it
+are redistributed under the [EMBL-EBI terms of
+use](https://www.ebi.ac.uk/about/terms-of-use) with attribution to the
+original studies, and `415530a-s9.xls` is archived verbatim from the
+supplementary material of van 't Veer et al. (2002).

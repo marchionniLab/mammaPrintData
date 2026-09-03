@@ -4,7 +4,7 @@
 
 - The raw ArrayExpress files (E-TABM-115 for the Glas cohort, E-TABM-77 for
   the Buyse cohort; about 210 MB) are no longer bundled in `inst/extdata`.
-  They are archived on Zenodo (doi:[ZENODO_DOI]) and remain available per
+  They are archived on Zenodo (doi:10.5281/zenodo.22285418) and remain available per
   file from EBI BioStudies. The new exported function `fetchMammaPrintRaw()`
   retrieves them from either source and caches the downloads with
   `BiocFileCache`.

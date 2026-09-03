@@ -13,7 +13,10 @@ gns231 <- readxl::read_xls(xls)
 colnames(gns231) <- gsub("\\s#", "", colnames(gns231))
 colnames(gns231) <- gsub("\\s", ".", colnames(gns231))
 ## Remove the GO/SwissProt keyword annotation
-gns231 <- gns231[, -grep("sp_xref_keyword_list", colnames(gns231))]
+gns231 <- gns231[
+  ,
+  -grep("sp_xref_keyword_list", colnames(gns231), fixed = TRUE)
+]
 ## Reorder the reporters by decreasing absolute correlation
 gns231 <- gns231[order(abs(gns231$correlation), decreasing = TRUE), ]
 ## The optimal 70-gene signature: top 70 reporters by absolute correlation

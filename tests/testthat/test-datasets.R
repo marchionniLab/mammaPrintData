@@ -16,7 +16,7 @@ test_that("RGList data sets have the expected structure", {
   skip_if_not_installed("limma")
   for (name in names(rgDatasets)) {
     x <- get(name)
-    expect_true(inherits(x, "RGList"))
+    expect_s4_class(x, "RGList")
     expect_identical(dim(x), rgDatasets[[name]], info = name)
     expect_true(
       all(c("R", "G", "Rb", "Gb", "targets", "genes") %in% names(x)),
@@ -88,10 +88,8 @@ test_that("seventyGeneSignature is the 231-reporter table with 70 flagged", {
 })
 
 test_that("fetchMammaPrintRaw() validates its arguments without network access", {
-  expect_error(
-    fetchMammaPrintRaw("E-TABM-77", source = "zenodo", cache = NULL),
-    "Zenodo|zenodo"
-  )
+  # cache = NULL fails at the BiocFileCache dispatch, before any download
+  expect_error(fetchMammaPrintRaw("E-TABM-77", source = "zenodo", cache = NULL))
   expect_error(
     fetchMammaPrintRaw("seventyGene", source = "biostudies", cache = NULL),
     "only available from Zenodo"

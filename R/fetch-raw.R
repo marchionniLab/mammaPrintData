@@ -1,26 +1,28 @@
-## Locations of the raw data files. Human follow-up: replace the
-## [ZENODO_RECORD_ID] placeholder with the numeric id of the Zenodo record.
-.zenodoRecordId <- "[ZENODO_RECORD_ID]"
+## Locations of the raw data files.
+.zenodoRecordId <- "22285418"
 
 .rawDataSources <- list(
   "E-TABM-77" = list(
     zenodo = "E-TABM-77_raw.tar.gz",
     biostudies = "https://ftp.ebi.ac.uk/biostudies/fire/E-TABM-/077/E-TABM-77/Files/",
-    sdrf = "E-TABM-77.sdrf.txt"
+    sdrf = "E-TABM-77.sdrf.txt",
+    # the array design is served from the A-MEXP-318 tree, not from Files/
+    adf = "https://ftp.ebi.ac.uk/biostudies/fire/A-MEXP-/318/A-MEXP-318/Files/A-MEXP-318.adf.txt"
   ),
   "E-TABM-115" = list(
     zenodo = "E-TABM-115_raw.tar.gz",
     biostudies = "https://ftp.ebi.ac.uk/biostudies/fire/E-TABM-/115/E-TABM-115/Files/",
-    sdrf = "E-TABM-115.sdrf.txt"
+    sdrf = "E-TABM-115.sdrf.txt",
+    adf = "https://ftp.ebi.ac.uk/biostudies/fire/A-MEXP-/318/A-MEXP-318/Files/A-MEXP-318.adf.txt"
   ),
   "seventyGene" = list(
     zenodo = "415530a-s9.xls",
     biostudies = NULL,
-    sdrf = NULL
+    sdrf = NULL,
+    adf = NULL
   )
 )
 
-.adfURL <- "https://ftp.ebi.ac.uk/biostudies/fire/A-MEXP-/318/A-MEXP-318/Files/A-MEXP-318.adf.txt"
 
 .zenodoFileURL <- function(file) {
   sprintf(
@@ -52,7 +54,8 @@
 #'   all gzipped raw files exactly as originally retrieved from
 #'   ArrayExpress, plus the spreadsheet. The function returns the path to the
 #'   archive (or spreadsheet); extract it with [utils::untar()]. Files are
-#'   served from Zenodo record \doi{[ZENODO_DOI]}.
+#'   served from Zenodo record \doi{10.5281/zenodo.22285418}. The record is published under CC-BY-4.0
+#'   with per-file provenance (see the package-level help).
 #' - `"biostudies"`: the per-file tree served by EBI BioStudies (the current
 #'   home of ArrayExpress). Only the SDRF and the ADF are downloaded by
 #'   default; individual raw files (uncompressed, several hundred of them
@@ -110,12 +113,6 @@ fetchMammaPrintRaw <- function(
         "'files' is ignored for source = \"zenodo\"; the whole archive is fetched"
       )
     }
-    if (grepl("[", .zenodoRecordId, fixed = TRUE)) {
-      stop(
-        "The Zenodo record for this version of mammaPrintData has not been ",
-        "published yet; use source = \"biostudies\" in the meantime"
-      )
-    }
     return(.cachedDownload(
       cache,
       .zenodoFileURL(info$zenodo),
@@ -129,10 +126,11 @@ fetchMammaPrintRaw <- function(
     stop(
       "'",
       accession,
-      "' is only available from Zenodo (source = \"zenodo\")"
+      "' is only available from Zenodo (source = \"zenodo\")",
+      call. = FALSE
     )
   }
-  urls <- c(paste0(info$biostudies, info$sdrf), .adfURL)
+  urls <- c(paste0(info$biostudies, info$sdrf), info$adf)
   paths <- .cachedDownload(cache, urls, basename(urls), verbose)
   if (!is.null(files)) {
     sdrf <- utils::read.delim(
@@ -152,7 +150,8 @@ fetchMammaPrintRaw <- function(
           "Unknown raw file(s) for ",
           accession,
           ": ",
-          paste(unknown, collapse = ", ")
+          paste(unknown, collapse = ", "),
+          call. = FALSE
         )
       }
     }
